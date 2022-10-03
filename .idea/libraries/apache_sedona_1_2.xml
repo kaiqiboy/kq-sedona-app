@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="apache-sedona-1.2">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../apache-sedona-1.2.1-incubating-bin" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/../apache-sedona-1.2.1-incubating-bin" recursive="false" />
+  </library>
+</component>
