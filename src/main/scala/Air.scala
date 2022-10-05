@@ -49,6 +49,7 @@ object Air {
       pointRDD.analyze()
       pointRDD.buildIndex(IndexType.RTREE, false)
       val sQuery = new Envelope(range(0), range(2), range(1), range(3))
+      val ts = Range(range(4).toInt, range(5).toInt, 86400).sliding(2).toArray
       val selectedRDD = RangeQuery.SpatialRangeQuery(pointRDD, sQuery, true, true)
         .rdd.map(x => (x, x.getUserData.asInstanceOf[String], x.getUserData.asInstanceOf[String].split("\t").last.toLong))
         .filter(x => x._3 >= range(4) && x._3 <= range(5))
@@ -61,11 +62,13 @@ object Air {
         }
         gf.createLineString(points)
       })
-      val joinRDD = selectedRDD.cartesian(mapRDD).filter {
-        case (x, y) => x._1.intersects(y)
-      }.map(x => (x._1._2, x._1._1.toString, x._2.toString)).toDF()
-      joinRDD.write.format("noop")
-      joinRDD.take(2).foreach(println)
+      val maps = for ( i <-mapRDD.collect;j<-ts) yield (i,j.toArray)
+      def add(a: Array[Int], b: Array[Int]):Array[Int] = a.zip(b).map { case (x, y) => x + y }
+      val res = selectedRDD.map(x => maps.map{m =>
+        if(m._1.intersects(x._1) && m._2(0)<= x._3 && m._2(1) >= x._3) 1
+        else 0
+      }).reduce(add)
+      println(res.length)
     }
     println(s"Grid hourly aggregation ${(nanoTime - t) * 1e-9} s")
     sc.stop()
