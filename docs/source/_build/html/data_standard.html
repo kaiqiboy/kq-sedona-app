@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Data Standard in ST4ML &mdash; ST4ML 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> ST4ML
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="end2endexample.html">End-to-End Example</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ST4ML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Data Standard in ST4ML</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/data_standard.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="data-standard-in-st4ml">
+<h1>Data Standard in ST4ML<a class="headerlink" href="#data-standard-in-st4ml" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="on-disk-data-standard">
+<h2>On-Disk Data Standard<a class="headerlink" href="#on-disk-data-standard" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="event">
+<h3>Event<a class="headerlink" href="#event" title="Permalink to this headline">¶</a></h3>
+<p>The on-disk events should be stored as <code class="docutils literal notranslate"><span class="pre">Parquet</span></code> files and contain the following fields:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">E</span><span class="o">(</span><span class="n">shape</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+             <span class="n">timeStamp</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Long</span><span class="o">],</span>
+             <span class="n">v</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">],</span>
+             <span class="n">d</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>where the shape <code class="docutils literal notranslate"><span class="pre">String</span></code> follows the <a class="reference external" href="https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry">WKT</a> format. E.g., <code class="docutils literal notranslate"><span class="pre">POLYGON</span> <span class="pre">((30</span> <span class="pre">10,</span> <span class="pre">40</span> <span class="pre">40,</span> <span class="pre">20</span> <span class="pre">40,</span> <span class="pre">10</span> <span class="pre">20,</span> <span class="pre">30</span> <span class="pre">10))</span></code></p>
+<blockquote>
+<div></div></blockquote>
+</div>
+<div class="section" id="trajectory">
+<h3>Trajectory<a class="headerlink" href="#trajectory" title="Permalink to this headline">¶</a></h3>
+<p>The on-disk trajectories are defined as follows:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">TrajPoint</span><span class="o">(</span><span class="n">lon</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span>
+                     <span class="n">lat</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span>
+                     <span class="n">t</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Long</span><span class="o">],</span>
+                     <span class="n">v</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">T</span><span class="o">(</span><span class="n">points</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">TrajPoint</span><span class="o">],</span> <span class="n">d</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

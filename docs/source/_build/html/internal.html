@@ -1,0 +1,454 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ST-Tool Internals &mdash; ST4ML 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> ST4ML
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Programming Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="end2endexample.html">End-to-End Example</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ST4ML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>ST-Tool Internals</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/internal.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="st-tool-internals">
+<h1>ST-Tool Internals<a class="headerlink" href="#st-tool-internals" title="Permalink to this headline">¶</a></h1>
+<p>In this chapter, we go deep into ST-Tool and touch some of the internal design idea and key techniques. After reading this chapter, one should be able to develop ST-related applications with high performance flexibly.</p>
+<div class="section" id="the-three-steps">
+<h2>The Three Steps<a class="headerlink" href="#the-three-steps" title="Permalink to this headline">¶</a></h2>
+<p>We abstract all ST-related applications into a pipeline of three steps, namely selection, conversion and extraction.</p>
+<div class="section" id="selection">
+<h3>Selection<a class="headerlink" href="#selection" title="Permalink to this headline">¶</a></h3>
+<p>Once we have a huge ST dataset, we need to firstly select the portion of data that is related to our application. More specifically,
+with a given spatial(rectangle) and temporal range, we select all data inside it. ST-Tool applies a spatial range query followed by a tempral range query.</p>
+<div class="section" id="spatial-query">
+<h4>Spatial Query<a class="headerlink" href="#spatial-query" title="Permalink to this headline">¶</a></h4>
+<p>The spatial query consists of three sub-steps: <em>partitioning</em>, <em>indexing</em>, and <em>selecting</em>.</p>
+<div class="section" id="partitioning">
+<h5>Partitioning:<a class="headerlink" href="#partitioning" title="Permalink to this headline">¶</a></h5>
+<p>ST-Tool has three build-in partitioning methods:</p>
+<ol class="arabic">
+<li><p>Hash partitioner:</p>
+<p>The hash partitioner ensures load balance but not data locality. It is the default partitioner used in this step.</p>
+</li>
+<li><p>STR partitioner (<a class="reference external" href="https://apps.dtic.mil/dtic/tr/fulltext/u2/a324493.pdf">details</a>):</p>
+<p>STR partitioner ensures both load balance and data locality, which can be useful when the following operations can benefit from it (e.g. the selectivity is small or multiple selections are performed concurrently).</p>
+<p>However, calculating STR boundaries takes some time as a trade off.</p>
+</li>
+<li><p>QuadTree partitioner (<a class="reference external" href="https://en.wikipedia.org/wiki/Quadtree">details</a>):</p>
+<p>QuadTree lies in between of hash and STR, which achieves some load balance and some data locality. Generating the boundaries is faster than STR.</p>
+</li>
+</ol>
+<p>STR and QuadTree partitioner takes a <code class="docutils literal notranslate"><span class="pre">samplingRate</span></code> parameter (ranges from 0 to 1), which means the ratio of data to be used for calculating the boundaries. A higher sampling rate ensures a better load balance but take more time.</p>
+</div>
+<div class="section" id="indexing-and-selecting">
+<h5>Indexing and Selecting:<a class="headerlink" href="#indexing-and-selecting" title="Permalink to this headline">¶</a></h5>
+<p>Currently ST-Tool uses RTree index inside each partition to query objects. From our experience it has a fairly good performance in terms of both index generation and querying.</p>
+</div>
+</div>
+<div class="section" id="temporal-query">
+<h4>Temporal Query<a class="headerlink" href="#temporal-query" title="Permalink to this headline">¶</a></h4>
+<p>After we filtered out spatially irrelevant data, we do the same for temporal dimension by simply apply a element-wise filter.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TemporalPartitioner</span></code> has two more functions which partition temporally first followed by spatially, namely <code class="docutils literal notranslate"><span class="pre">partitionGrid</span></code> and <code class="docutils literal notranslate"><span class="pre">PartitionSTR</span></code>. If needed, please refer to its API documentations.</p>
+</div>
+</div>
+<div class="section" id="conversion">
+<h3>Conversion<a class="headerlink" href="#conversion" title="Permalink to this headline">¶</a></h3>
+<p>The second step is conversion, which allow different instances to convert to each other. This is useful since the instance from the input data may not be the most suitable form for the specific application.</p>
+<p>For examples, we may want to convert a trajectory to a set of points if our application is to find the number of occurrence of vehicles in a time window at a cetain spot.
+More detailed explanations can be found at <a class="reference internal" href="#st-instances-and-conversions">ST Instances and Conversions</a>.</p>
+</div>
+<div class="section" id="extraction">
+<h3>Extraction<a class="headerlink" href="#extraction" title="Permalink to this headline">¶</a></h3>
+<p>Extraction operates on the converted RDD and performs the actual data analytic algorithms. ST-Tool has some build-in extractors and users can also write their own extraction functions following the guide at <a class="reference internal" href="#extensions-and-customizations">Extensions and Customizations</a>.</p>
+</div>
+</div>
+<div class="section" id="st-instances-and-conversions">
+<h2>ST Instances and Conversions<a class="headerlink" href="#st-instances-and-conversions" title="Permalink to this headline">¶</a></h2>
+<p>ST-Tool supports 5 most common instances: point, trajectory, time series, spatial map and raster.
+They can convert to each other in order to achieve a better performance in the extraction of different features.</p>
+<p>Firstly let’s take a look at the 5 instances.</p>
+<div class="section" id="point-and-trajectory-instances">
+<h3>Point and Trajectory Instances<a class="headerlink" href="#point-and-trajectory-instances" title="Permalink to this headline">¶</a></h3>
+<p>Normally the data read in are points or Trajectories, which are defined as following:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Point</span><span class="o">(</span>
+
+    <span class="n">coordinates</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Double</span><span class="o">],</span>
+    <span class="k">var</span> <span class="n">t</span><span class="k">:</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span>
+    <span class="k">var</span> <span class="n">id</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&quot;0&quot;</span><span class="o">,</span>
+    <span class="n">attributes</span><span class="k">:</span> <span class="kt">Map</span><span class="o">[</span><span class="kt">String</span><span class="p">,</span> <span class="kt">String</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Map</span><span class="o">()</span>
+
+    <span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Trajectory</span><span class="o">(</span>
+
+    <span class="n">tripID</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+    <span class="n">startTime</span><span class="k">:</span> <span class="kt">Long</span><span class="o">,</span>
+    <span class="n">points</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Point</span><span class="o">],</span>
+    <span class="n">attributes</span><span class="k">:</span> <span class="kt">Map</span><span class="o">[</span><span class="kt">String</span><span class="p">,</span> <span class="kt">String</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Map</span><span class="o">()</span>
+
+    <span class="o">)</span>
+</pre></div>
+</div>
+<p>Note:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>The timestamp is in unix timestamp and in second.</p></li>
+<li><p>The conventional coordinates are in (longitude, latitude) order.</p></li>
+</ol>
+</div></blockquote>
+<p>The start point of ST-Tool are data in <code class="docutils literal notranslate"><span class="pre">RDD[Point]</span></code> or <code class="docutils literal notranslate"><span class="pre">RDD[Trajectory]</span></code>, which are usually read from some files and converted to RDD using <code class="docutils literal notranslate"><span class="pre">sc.parallelize(SomeArray)</span></code>.</p>
+</div>
+<div class="section" id="spatial-map-instances">
+<h3>Spatial Map Instances<a class="headerlink" href="#spatial-map-instances" title="Permalink to this headline">¶</a></h3>
+<p>A spatial map records the information of a collection of regions at a certain time window, and is defined as</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">SpatialMap</span><span class="o">[</span><span class="kt">T:</span> <span class="kt">ClassTag</span><span class="o">](</span>
+
+    <span class="n">id</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+    <span class="n">timeStamp</span><span class="k">:</span> <span class="o">(</span><span class="kt">Long</span><span class="o">,</span> <span class="kt">Long</span><span class="o">),</span>
+    <span class="n">contents</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[(</span><span class="kt">Rectangle</span><span class="p">,</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">T</span><span class="o">])]</span>
+
+    <span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="time-series-instances">
+<h3>Time Series Instances<a class="headerlink" href="#time-series-instances" title="Permalink to this headline">¶</a></h3>
+<p>A time series records the information at some location (or region) for a period of time, and is defined as</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">TimeSeries</span><span class="o">[</span><span class="kt">T:</span> <span class="kt">ClassTag</span><span class="o">](</span>
+
+    <span class="n">id</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+    <span class="n">startTime</span><span class="k">:</span> <span class="kt">Long</span><span class="o">,</span>
+    <span class="n">timeInterval</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span>
+    <span class="n">spatialRange</span><span class="k">:</span> <span class="kt">Rectangle</span><span class="o">,</span>
+    <span class="n">series</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Array</span><span class="o">[</span><span class="kt">T</span><span class="o">]])</span>
+
+    <span class="o">)</span>
+</pre></div>
+</div>
+<p>Time interval means the granularity of the time series, i.e. for how long is the information aggregated.</p>
+<p>E.g.</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">startTime = 0, timeInterval = 5 refers to a time series with slots (0,5), (5,10), (10,15) …(depends on the content length).</div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="raster-instances">
+<h3>Raster Instances<a class="headerlink" href="#raster-instances" title="Permalink to this headline">¶</a></h3>
+<p>A raster refers to a cube in the spatio-temporal space and is defined as</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Raster</span><span class="o">[</span><span class="kt">T:</span> <span class="kt">ClassTag</span><span class="o">](</span>
+
+    <span class="n">id</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+    <span class="n">contents</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">TimeSeries</span><span class="o">[</span><span class="kt">T</span><span class="o">]]</span>
+
+    <span class="o">)</span>
+</pre></div>
+</div>
+<p>The minimal raster cube should have only one TimeSeries with one slot as content.</p>
+<p><em>Raster instance is not fully developed yet. Not recommended to use for now.</em></p>
+</div>
+<div class="section" id="conversions">
+<h3>Conversions<a class="headerlink" href="#conversions" title="Permalink to this headline">¶</a></h3>
+<p>ST-Tool provides the following conversions:</p>
+<img alt="Instances and conversions" src="images/instances.png" />
+<p>The above conversions have corresponding converter classes as  <code class="docutils literal notranslate"><span class="pre">converter.A2BConverter</span></code>, where <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> can be selected from in <code class="docutils literal notranslate"><span class="pre">{Point,</span> <span class="pre">Traj,</span> <span class="pre">SpatialMap,</span> <span class="pre">TimeSeries}</span></code>
+To instantiate a converter, some input arguments may be needed and please refer to the API document.</p>
+<p>ST-Tool also has a <code class="docutils literal notranslate"><span class="pre">DoNothingConverter</span></code> for completing the 3-step pipeline.</p>
+<p>After <strong>step 1: Selection</strong>, the <code class="docutils literal notranslate"><span class="pre">dataRDD:</span> <span class="pre">RDD[T]</span></code> becomes <code class="docutils literal notranslate"><span class="pre">selectedRDD[(Int,</span> <span class="pre">T)]</span></code> where the <code class="docutils literal notranslate"><span class="pre">Int</span></code> refers to the partition number. The converter takes <code class="docutils literal notranslate"><span class="pre">selectedRDD[(Int,</span> <span class="pre">T)]</span></code> and returns a <code class="docutils literal notranslate"><span class="pre">convertedRDD[C]</span></code>.
+This is done by calling  <code class="docutils literal notranslate"><span class="pre">A2BConverter.convert(selectedRDD)</span></code>.</p>
+</div>
+</div>
+<div class="section" id="build-in-extractors">
+<h2>Build-In Extractors<a class="headerlink" href="#build-in-extractors" title="Permalink to this headline">¶</a></h2>
+<dl>
+<dt>ST-Tool has some useful build-in extractors which can be called inside your own application. The whole list is as below:</dt><dd><ul class="simple">
+<li><p>FakePlateExtractor</p></li>
+</ul>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">extract</span><span class="o">(</span><span class="n">rdd</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Trajectory</span><span class="o">],</span> <span class="n">speedThreshold</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span>
+<span class="n">extractAndShowDetail</span><span class="o">(</span><span class="n">rdd</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Trajectory</span><span class="o">],</span> <span class="n">speedThreshold</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)</span><span class="k">:</span><span class="kt">RDD</span><span class="o">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Array</span><span class="o">[((</span><span class="kt">Long</span><span class="p">,</span> <span class="o">(</span><span class="kt">Double</span><span class="p">,</span> <span class="kt">Double</span><span class="o">))</span><span class="p">,</span> <span class="o">(</span><span class="kt">Long</span><span class="p">,</span> <span class="o">(</span><span class="kt">Double</span><span class="p">,</span> <span class="kt">Double</span><span class="o">))</span><span class="p">,</span> <span class="kt">Double</span><span class="o">)])]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>PointCompanionExtractor</p></li>
+</ul>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">extract</span><span class="o">(</span><span class="n">sThreshold</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span> <span class="n">tThreshold</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)(</span><span class="n">pRDD</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Point</span><span class="o">])</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Map</span><span class="o">[</span><span class="kt">Long</span><span class="p">,</span> <span class="kt">String</span><span class="o">])]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>PointAnalysisExtractor</p></li>
+</ul>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">extractMostFrequentPoints</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)(</span><span class="n">pRDD</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Point</span><span class="o">])</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="o">)]</span>
+<span class="n">extractPermanentResidents</span><span class="o">(</span><span class="n">t</span><span class="k">:</span> <span class="o">(</span><span class="kt">Long</span><span class="o">,</span> <span class="kt">Long</span><span class="o">),</span> <span class="n">occurrenceThreshold</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)(</span><span class="n">pRDD</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Point</span><span class="o">])</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="o">)]</span>
+<span class="n">extractNewMoveIn</span><span class="o">(</span><span class="n">t</span><span class="k">:</span> <span class="kt">Long</span><span class="o">,</span> <span class="n">occurrenceThresholdAfter</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">occurrenceThresholdBefore</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">3</span><span class="o">)(</span><span class="n">pRDD</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Point</span><span class="o">])</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="o">)]</span>
+<span class="n">extractSpatialRange</span><span class="o">(</span><span class="n">pRDD</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Point</span><span class="o">])</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Double</span><span class="o">]</span>
+<span class="n">extractTemporalRange</span><span class="o">(</span><span class="n">pRDD</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Point</span><span class="o">])</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Long</span><span class="o">]</span>
+<span class="n">extractTemporalQuantile</span><span class="o">(</span><span class="n">percentages</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Double</span><span class="o">])(</span><span class="n">pRDD</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Point</span><span class="o">])</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Double</span><span class="o">]</span>
+<span class="n">extractTemporalQuantile</span><span class="o">(</span><span class="n">percentages</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)(</span><span class="n">pRDD</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Point</span><span class="o">])</span><span class="k">:</span> <span class="kt">Double</span>
+<span class="n">extractAbnormity</span><span class="o">(</span><span class="n">range</span><span class="k">:</span> <span class="o">(</span><span class="kt">Int</span><span class="o">,</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">=</span> <span class="o">(</span><span class="mi">23</span><span class="o">,</span> <span class="mi">5</span><span class="o">))(</span><span class="n">pRDD</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Point</span><span class="o">])</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span>
+<span class="n">extractNumIds</span><span class="o">(</span><span class="n">pRDD</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Point</span><span class="o">])</span><span class="k">:</span> <span class="kt">Long</span>
+<span class="n">extractDailyNum</span><span class="o">(</span><span class="n">pRDD</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Point</span><span class="o">])</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="o">)]</span>
+<span class="n">extractNumAttribute</span><span class="o">(</span><span class="n">key</span><span class="k">:</span> <span class="kt">String</span><span class="o">)(</span><span class="n">pRDD</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Point</span><span class="o">])</span><span class="k">:</span> <span class="kt">Long</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>SpatialMapExtractor</p></li>
+</ul>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">rangeQuery</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Shape</span> <span class="kt">:</span> <span class="kt">ClassTag</span><span class="o">](</span><span class="n">rdd</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">SpatialMap</span><span class="o">[</span><span class="kt">T</span><span class="o">]],</span> <span class="n">spatialRange</span><span class="k">:</span> <span class="kt">Rectangle</span><span class="o">,</span> <span class="n">temporalRange</span><span class="k">:</span> <span class="o">(</span><span class="kt">Long</span><span class="o">,</span> <span class="kt">Long</span><span class="o">))</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>TimeSeriesExtractor</p></li>
+</ul>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">extractByTime</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Shape</span> <span class="kt">:</span> <span class="kt">ClassTag</span><span class="o">](</span><span class="n">timeRange</span><span class="k">:</span> <span class="o">(</span><span class="kt">Long</span><span class="o">,</span> <span class="kt">Long</span><span class="o">))(</span><span class="n">rdd</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">TimeSeries</span><span class="o">[</span><span class="kt">T</span><span class="o">]])</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span>
+<span class="n">countTimeSlotSamples</span><span class="o">[</span><span class="kt">T:</span> <span class="kt">ClassTag</span><span class="o">](</span><span class="n">timeRange</span><span class="k">:</span> <span class="o">(</span><span class="kt">Long</span><span class="o">,</span> <span class="kt">Long</span><span class="o">))(</span><span class="n">rdd</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">TimeSeries</span><span class="o">[</span><span class="kt">T</span><span class="o">]])</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[((</span><span class="kt">Long</span><span class="p">,</span> <span class="kt">Long</span><span class="o">)</span><span class="p">,</span> <span class="kt">Int</span><span class="o">)]</span>
+<span class="n">extractByTimeSpatial</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Shape</span> <span class="kt">:</span> <span class="kt">ClassTag</span><span class="o">](</span><span class="n">timeRange</span><span class="k">:</span> <span class="o">(</span><span class="kt">Long</span><span class="o">,</span> <span class="kt">Long</span><span class="o">))(</span><span class="n">rdd</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">TimeSeries</span><span class="o">[</span><span class="kt">T</span><span class="o">]])</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span>
+<span class="n">countTimeSlotSamplesSpatial</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Shape</span> <span class="kt">:</span> <span class="kt">ClassTag</span><span class="o">](</span><span class="n">timeRange</span><span class="k">:</span> <span class="o">(</span><span class="kt">Long</span><span class="o">,</span> <span class="kt">Long</span><span class="o">))(</span><span class="n">rdd</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">TimeSeries</span><span class="o">[</span><span class="kt">T</span><span class="o">]])</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Array</span><span class="o">[((</span><span class="kt">Long</span><span class="p">,</span> <span class="kt">Long</span><span class="o">)</span><span class="p">,</span> <span class="kt">Int</span><span class="o">)]]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="extensions-and-customizations">
+<h2>Extensions and Customizations<a class="headerlink" href="#extensions-and-customizations" title="Permalink to this headline">¶</a></h2>
+<p>Once we have finished selection and conversion, we can pass the <code class="docutils literal notranslate"><span class="pre">convertedRDD</span></code> to the final extraction step. ST-Tool provides useful extraction functions but still cannot cover all.
+In complement, ST-Tool supports customized extraction functions. However, for now developers have to be familiar with Spark and write some Spark codes operating RDDs. Basically, what you need to do is to write a function which takes the <code class="docutils literal notranslate"><span class="pre">RDD[T]</span></code> from <strong>step 2: Conversion</strong> as input and do whatever you want.
+You can print out the results or save it into a file after finishing the process.</p>
+<p>Note that the implementation of the algorithm affects the performance.</p>
+<p>Below is an example of extracting companion relationship from points:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">package</span> <span class="nn">customExtractor</span>
+
+<span class="k">import</span> <span class="nn">geometry.Point</span>
+<span class="k">import</span> <span class="nn">operators.extraction.Extractor</span>
+<span class="k">import</span> <span class="nn">operators.selection.partitioner._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.rdd.RDD</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.storage.StorageLevel</span>
+<span class="k">import</span> <span class="nn">utils.Config</span>
+
+<span class="k">import</span> <span class="nn">scala.math.abs</span>
+
+<span class="k">class</span> <span class="nc">CompanionExtractor</span> <span class="k">extends</span> <span class="nc">Extractor</span> <span class="o">{</span>
+
+<span class="k">def</span> <span class="n">isCompanion</span><span class="o">(</span><span class="n">tThreshold</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span> <span class="n">sThreshold</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)(</span><span class="n">p1</span><span class="k">:</span> <span class="kt">Point</span><span class="o">,</span> <span class="n">p2</span><span class="k">:</span> <span class="kt">Point</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="o">{</span>
+<span class="n">abs</span><span class="o">(</span><span class="n">p1</span><span class="o">.</span><span class="n">timeStamp</span><span class="o">.</span><span class="n">_1</span> <span class="o">-</span> <span class="n">p2</span><span class="o">.</span><span class="n">timeStamp</span><span class="o">.</span><span class="n">_1</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="n">tThreshold</span> <span class="o">&amp;&amp;</span>
+    <span class="n">abs</span><span class="o">(</span><span class="n">p1</span><span class="o">.</span><span class="n">geoDistance</span><span class="o">(</span><span class="n">p2</span><span class="o">))</span> <span class="o">&lt;=</span> <span class="n">sThreshold</span> <span class="o">&amp;&amp;</span>
+    <span class="n">p1</span><span class="o">.</span><span class="n">attributes</span><span class="o">(</span><span class="s">&quot;tripID&quot;</span><span class="o">)</span> <span class="o">!=</span> <span class="n">p2</span><span class="o">.</span><span class="n">attributes</span><span class="o">(</span><span class="s">&quot;tripID&quot;</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="c1">// find all companion pairs</span>
+<span class="k">def</span> <span class="n">optimizedExtract</span><span class="o">(</span><span class="n">sThreshold</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span> <span class="n">tThreshold</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span> <span class="n">tPartition</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">4</span><span class="o">)</span>
+                    <span class="o">(</span><span class="n">pRDD</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Point</span><span class="o">])</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Map</span><span class="o">[</span><span class="kt">Long</span><span class="p">,</span> <span class="kt">String</span><span class="o">])]</span> <span class="o">=</span> <span class="o">{</span>
+
+<span class="k">val</span> <span class="n">numPartitions</span> <span class="o">=</span> <span class="n">pRDD</span><span class="o">.</span><span class="n">getNumPartitions</span>
+<span class="k">val</span> <span class="n">partitioner</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TemporalPartitioner</span><span class="o">(</span><span class="n">startTime</span> <span class="o">=</span> <span class="n">pRDD</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">t</span><span class="o">).</span><span class="n">min</span><span class="o">,</span>
+    <span class="n">endTime</span> <span class="o">=</span> <span class="n">pRDD</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">t</span><span class="o">).</span><span class="n">max</span><span class="o">,</span> <span class="n">numPartitions</span> <span class="o">=</span> <span class="n">numPartitions</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">repartitionedRDD</span> <span class="o">=</span> <span class="n">partitioner</span><span class="o">.</span><span class="n">partitionSTR</span><span class="o">(</span><span class="n">pRDD</span><span class="o">,</span> <span class="n">tPartition</span><span class="o">,</span> <span class="n">tThreshold</span><span class="o">,</span> <span class="n">sThreshold</span><span class="o">,</span> <span class="nc">Config</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="s">&quot;samplingRate&quot;</span><span class="o">).</span><span class="n">toDouble</span><span class="o">)</span> <span class="c1">//temporal + str</span>
+<span class="k">val</span> <span class="n">pointsPerPartition</span> <span class="o">=</span> <span class="n">repartitionedRDD</span><span class="o">.</span><span class="n">mapPartitions</span><span class="o">(</span><span class="n">iter</span> <span class="o">=&gt;</span> <span class="nc">Iterator</span><span class="o">(</span><span class="n">iter</span><span class="o">.</span><span class="n">length</span><span class="o">)).</span><span class="n">collect</span>
+<span class="n">println</span><span class="o">(</span><span class="s">&quot;--- After partitioning:&quot;</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="s">s&quot;... Number of points per partition: &quot;</span> <span class="o">+</span>
+    <span class="s">s&quot;</span><span class="si">${</span><span class="n">pointsPerPartition</span><span class="o">.</span><span class="n">deep</span><span class="si">}</span><span class="s">&quot;</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="s">s&quot;... Total: </span><span class="si">${</span><span class="n">pointsPerPartition</span><span class="o">.</span><span class="n">sum</span><span class="si">}</span><span class="s">&quot;</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="s">s&quot;... Distinct: </span><span class="si">${</span><span class="n">repartitionedRDD</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="o">.</span><span class="n">_2</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">_2</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">toString</span><span class="o">).</span><span class="n">distinct</span><span class="o">.</span><span class="n">count</span><span class="si">}</span><span class="s">&quot;</span><span class="o">)</span>
+<span class="n">repartitionedRDD</span><span class="o">.</span><span class="n">persist</span><span class="o">(</span><span class="nc">StorageLevel</span><span class="o">.</span><span class="nc">MEMORY_AND_DISK_SER</span><span class="o">)</span>
+<span class="n">repartitionedRDD</span><span class="o">.</span><span class="n">join</span><span class="o">(</span><span class="n">repartitionedRDD</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">_2</span><span class="o">).</span><span class="n">filter</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="o">(</span><span class="n">p1</span><span class="o">,</span> <span class="n">p2</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="n">isCompanion</span><span class="o">(</span><span class="n">tThreshold</span><span class="o">,</span> <span class="n">sThreshold</span><span class="o">)(</span><span class="n">p1</span><span class="o">,</span> <span class="n">p2</span><span class="o">)</span>
+<span class="o">}.</span><span class="n">map</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="o">(</span><span class="n">p1</span><span class="o">,</span> <span class="n">p2</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="o">(</span><span class="n">p1</span><span class="o">.</span><span class="n">id</span><span class="o">,</span> <span class="nc">Array</span><span class="o">((</span><span class="n">p1</span><span class="o">.</span><span class="n">timeStamp</span><span class="o">.</span><span class="n">_1</span><span class="o">,</span> <span class="n">p2</span><span class="o">.</span><span class="n">id</span><span class="o">)))</span>
+<span class="o">}</span>
+    <span class="o">.</span><span class="n">mapValues</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">toMap</span><span class="o">)</span>
+    <span class="o">.</span><span class="n">reduceByKey</span><span class="o">(</span><span class="k">_</span> <span class="o">++</span> <span class="k">_</span><span class="o">,</span> <span class="n">numPartitions</span> <span class="o">*</span> <span class="mi">4</span><span class="o">)</span>
+<span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>In addition, ST-Tool supports custom <code class="docutils literal notranslate"><span class="pre">Partitioner</span></code>, <code class="docutils literal notranslate"><span class="pre">Indexer</span></code> and  <code class="docutils literal notranslate"><span class="pre">Converter</span></code> as well. If needed, please contact the authors for further details.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

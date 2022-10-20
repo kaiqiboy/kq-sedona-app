@@ -1,0 +1,774 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Programming Guide &mdash; ST4ML 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="End-to-End Example" href="end2endexample.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ST4ML
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Programming Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#st-instances">ST Instances</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#geometry">Geometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#duration">Duration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">ST Instances</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-instance-abstract-class">The Instance abstract class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#event">Event</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#trajectory">Trajectory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spatialmap">SpatialMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#timeseries">TimeSeries</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#raster">Raster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#instance-operations">Instance operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#operators">Operators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#selector">Selector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#converter">Converter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#event-to-trajectory">Event to Trajectory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#trajectory-to-event">Trajectory to Event</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#event-and-trajectory-to-spatial-map">Event and Trajectory to Spatial Map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#event-and-trajectory-to-time-series">Event and Trajectory to Time Series</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#event-and-trajectory-to-raster">Event and Trajectory to Raster</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#raster-to-spatial-map-and-time-series">Raster to Spatial Map and Time Series</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#extractor">Extractor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="end2endexample.html">End-to-End Example</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ST4ML</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Programming Guide</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/gettingstarted.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="programming-guide">
+<h1>Programming Guide<a class="headerlink" href="#programming-guide" title="Permalink to this headline">¶</a></h1>
+<p>In this section, we introduce the design and use of two core parts in ST4ML, the ST instances and operations.
+With the well-designed ST instances, programmers can easily manipulate heterogeneous ST data; and with the three types operators
+programmers can make ST data ingestible for machine learning applications.</p>
+<div class="section" id="st-instances">
+<h2>ST Instances<a class="headerlink" href="#st-instances" title="Permalink to this headline">¶</a></h2>
+<p>We first introduce the ST supports based on our <code class="docutils literal notranslate"><span class="pre">Geometry</span></code> class and <code class="docutils literal notranslate"><span class="pre">Duration</span></code> class.</p>
+<div class="section" id="geometry">
+<h3>Geometry<a class="headerlink" href="#geometry" title="Permalink to this headline">¶</a></h3>
+<p>ST4ML supports three most commonly-used types of 2-d geometries: <code class="docutils literal notranslate"><span class="pre">Point</span></code>, <code class="docutils literal notranslate"><span class="pre">Polygon</span></code>, and <code class="docutils literal notranslate"><span class="pre">LineString</span></code>. These geometries inherit the widely-used <a class="reference external" href="https://github.com/locationtech/jts">JTS</a> package, which means that
+all JTS functions are supported, while we extend them with other commonly-used functions based on our industrial experience.</p>
+<blockquote>
+<div></div></blockquote>
+<p>We add easier construction methods in scala. E.g., besides the original JTS constructions, a <code class="docutils literal notranslate"><span class="pre">Point</span></code> can be created with two <code class="docutils literal notranslate"><span class="pre">Double</span></code> or a tuple:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">st4ml.instances.Point</span>
+
+<span class="k">val</span> <span class="n">point1</span> <span class="o">=</span> <span class="nc">Point</span><span class="o">(</span><span class="mf">1.2</span><span class="o">,</span> <span class="mf">1.3</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">point2</span> <span class="o">=</span> <span class="nc">Point</span><span class="o">((</span><span class="mf">103.682106</span><span class="o">,</span> <span class="mf">1.346750</span><span class="o">))</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In ST4ML’s convention, when describing a geographical point, it is denoted as <code class="docutils literal notranslate"><span class="pre">Point(longitude,</span> <span class="pre">latitude)</span></code>, i.e. the longitude is defined first. The order is important when using geometrical functions (e.g. calculating the Great Circle Distance).
+The same applies to other geometries.</p>
+</div>
+<p>A <code class="docutils literal notranslate"><span class="pre">LineString</span></code> can be created with points or array of tuples:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">st4ml.instances.LineString</span>
+
+<span class="k">val</span> <span class="n">ls1</span> <span class="o">=</span> <span class="nc">LineString</span><span class="o">(</span><span class="n">point1</span><span class="o">,</span> <span class="n">point2</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">ls2</span> <span class="o">=</span> <span class="nc">LineString</span><span class="o">(</span><span class="nc">Array</span><span class="o">((</span><span class="mf">1.2</span><span class="o">,</span> <span class="mf">1.3</span><span class="o">),</span> <span class="o">(</span><span class="mf">2.2</span><span class="o">,</span> <span class="mf">2.3</span><span class="o">)))</span>
+</pre></div>
+</div>
+<p>Similarly, a <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> can be created with points or array of tuples, but the last point has to be the same as the first one (to close the ring). The points are connected sequentially to form a polygon (the same concept as JTS use):</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">st4ml.instances.Polygon</span>
+
+<span class="k">val</span> <span class="n">ls2</span> <span class="o">=</span> <span class="nc">Polygon</span><span class="o">(</span><span class="nc">Array</span><span class="o">((</span><span class="mf">1.2</span><span class="o">,</span> <span class="mf">1.3</span><span class="o">),</span> <span class="o">(</span><span class="mf">2.2</span><span class="o">,</span> <span class="mf">2.3</span><span class="o">),</span> <span class="o">(</span><span class="mf">2.2</span><span class="o">,</span> <span class="mf">2.5</span><span class="o">),</span> <span class="o">(</span><span class="mf">1.2</span><span class="o">,</span> <span class="mf">1.3</span><span class="o">)))</span>
+</pre></div>
+</div>
+<p>We define a special geometry <code class="docutils literal notranslate"><span class="pre">Extent</span></code>, which is a rectangle defined by xMin, yMin, xMax, and yMax:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">st4ml.instances.Extent</span>
+
+<span class="k">val</span> <span class="n">extent</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Extent</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mf">1.5</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>It is internally used to describe the minimum bounding rectangle (MBR) for a geometry.</p>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">Extent</span></code> class does not extend the <code class="docutils literal notranslate"><span class="pre">Geometry</span></code> class and it cannot be directly used in ST4ML functions (which requires <code class="docutils literal notranslate"><span class="pre">[T</span> <span class="pre">&lt;:</span> <span class="pre">Geometry]</span></code>)</p>
+<p>However, <code class="docutils literal notranslate"><span class="pre">Extent</span></code> has the function <code class="docutils literal notranslate"><span class="pre">toPolygon</span></code>:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">polygon</span> <span class="o">=</span> <span class="n">extent</span><span class="o">.</span><span class="n">toPolygon</span>
+</pre></div>
+</div>
+<p>which provides an easy way to construct a rectangular polygon.</p>
+</div>
+<div class="section" id="duration">
+<h3>Duration<a class="headerlink" href="#duration" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">Duration</span></code> class records temporal information. A duration can be defined as:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">st4ml.instances.Duration</span>
+
+<span class="k">val</span> <span class="n">dur1</span> <span class="o">=</span> <span class="nc">Duration</span><span class="o">(</span><span class="mi">0L</span><span class="o">,</span> <span class="mi">12L</span><span class="o">)</span> <span class="c1">// a duration starts at 0 and ends at 12</span>
+<span class="k">val</span> <span class="n">dur2</span> <span class="o">=</span> <span class="nc">Duration</span><span class="o">(</span><span class="mi">1646832991L</span><span class="o">)</span> <span class="c1">// an instant at timestamp 1646832991</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Duration</span></code> class takes <code class="docutils literal notranslate"><span class="pre">Long</span></code> type input since in most cases the time is in the unix timestamp format.</p>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>ST Instances<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="the-instance-abstract-class">
+<h4>The Instance abstract class<a class="headerlink" href="#the-instance-abstract-class" title="Permalink to this headline">¶</a></h4>
+<p>An ST instance contain two fields: <code class="docutils literal notranslate"><span class="pre">entries</span></code> and <code class="docutils literal notranslate"><span class="pre">data</span></code>.  The <code class="docutils literal notranslate"><span class="pre">entries</span></code> field is an array of <code class="docutils literal notranslate"><span class="pre">Entry</span></code>, where each entry contains
+spatial, temporal and auxiliary value. The spatial information should inherit the <code class="docutils literal notranslate"><span class="pre">Geometry</span></code> class, the temporal information is fixed to <code class="docutils literal notranslate"><span class="pre">Duration</span></code>, while
+the <code class="docutils literal notranslate"><span class="pre">value</span></code> and <code class="docutils literal notranslate"><span class="pre">data</span></code> information can be of any type specified by the programmer.</p>
+<p>It is formally defined as below:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">abstract</span> <span class="k">class</span> <span class="nc">Instance</span><span class="o">[</span><span class="kt">S</span> <span class="k">&lt;:</span> <span class="kt">Geometry</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">]</span> <span class="k">extends</span> <span class="nc">Serializable</span> <span class="o">{</span>
+
+    <span class="k">val</span> <span class="n">entries</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Entry</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V</span><span class="o">]]</span>
+    <span class="k">val</span> <span class="n">data</span><span class="k">:</span> <span class="kt">D</span>
+    <span class="o">...</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Entry</span><span class="o">[</span><span class="kt">S</span> <span class="k">&lt;:</span> <span class="kt">Geometry</span><span class="p">,</span> <span class="kt">V</span><span class="o">](</span><span class="n">spatial</span><span class="k">:</span> <span class="kt">S</span><span class="o">,</span>
+                                   <span class="n">temporal</span><span class="k">:</span> <span class="kt">Duration</span><span class="o">,</span>
+                                   <span class="n">value</span><span class="k">:</span> <span class="kt">V</span><span class="o">)</span> <span class="o">{</span>
+<span class="o">...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>ST4ML provides 5 ST instances, which can be divided into two categories:</p>
+<ul class="simple">
+<li><p>Singular: <code class="docutils literal notranslate"><span class="pre">Event</span></code> and <code class="docutils literal notranslate"><span class="pre">Trajectory</span></code></p></li>
+<li><p>Collective: <code class="docutils literal notranslate"><span class="pre">SpatialMap</span></code>, <code class="docutils literal notranslate"><span class="pre">TimeSeries</span></code>, and <code class="docutils literal notranslate"><span class="pre">Raster</span></code></p></li>
+</ul>
+<p>We first introduce the definition and construction of each instance and then talk about the functions supported by them.</p>
+</div>
+<div class="section" id="event">
+<h4>Event<a class="headerlink" href="#event" title="Permalink to this headline">¶</a></h4>
+<p>An event stands for an occurrence of an object and the length of <code class="docutils literal notranslate"><span class="pre">entries</span></code> is retrained to be 1.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Event</span><span class="o">[</span><span class="kt">S</span> <span class="k">&lt;:</span> <span class="kt">Geometry</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">](</span><span class="n">entries</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Entry</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V</span><span class="o">]],</span>
+                                      <span class="n">data</span><span class="k">:</span> <span class="kt">D</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Instance</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">]</span> <span class="o">{</span>
+
+    <span class="k">override</span> <span class="k">def</span> <span class="n">validation</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="n">entries</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="n">require</span><span class="o">(</span><span class="n">validation</span><span class="o">,</span> <span class="s">s&quot;The length of entries for Event should be 1, but got </span><span class="si">${</span><span class="n">entries</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s">&quot;</span><span class="o">)</span>
+
+    <span class="o">...</span>
+    <span class="o">}</span>
+</pre></div>
+</div>
+<p>An alternative construction method is provided to allow programmer create an event with one <code class="docutils literal notranslate"><span class="pre">spatial</span></code> and one <code class="docutils literal notranslate"><span class="pre">temporal</span></code> value (the <code class="docutils literal notranslate"><span class="pre">value</span></code> and <code class="docutils literal notranslate"><span class="pre">data</span></code> are set to <code class="docutils literal notranslate"><span class="pre">None</span></code> by default):</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">S</span> <span class="k">&lt;:</span> <span class="kt">Geometry</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">](</span><span class="n">entries</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Entry</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V</span><span class="o">]],</span> <span class="n">data</span><span class="k">:</span> <span class="kt">D</span> <span class="o">=</span> <span class="nc">None</span><span class="o">)</span><span class="k">:</span> <span class="kt">Event</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">]</span> <span class="o">=</span> <span class="o">...</span>
+
+<span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">S</span> <span class="k">&lt;:</span> <span class="kt">Geometry</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">](</span><span class="n">s</span><span class="k">:</span> <span class="kt">S</span><span class="o">,</span> <span class="n">t</span><span class="k">:</span> <span class="kt">Duration</span><span class="o">,</span> <span class="n">v</span><span class="k">:</span> <span class="kt">V</span> <span class="o">=</span> <span class="nc">None</span><span class="o">,</span> <span class="n">d</span><span class="k">:</span> <span class="kt">D</span> <span class="o">=</span> <span class="nc">None</span><span class="o">)</span><span class="k">:</span> <span class="kt">Event</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">]</span> <span class="o">=</span> <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trajectory">
+<h4>Trajectory<a class="headerlink" href="#trajectory" title="Permalink to this headline">¶</a></h4>
+<p>A trajectory consists of a series of ordered ST points (length &gt; 1) and is defined as follows:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Trajectory</span><span class="o">[</span><span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">](</span>
+    <span class="k">override</span> <span class="k">val</span> <span class="n">entries</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Entry</span><span class="o">[</span><span class="kt">Point</span><span class="p">,</span> <span class="kt">V</span><span class="o">]],</span>
+    <span class="k">override</span> <span class="k">val</span> <span class="n">data</span><span class="k">:</span> <span class="kt">D</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Instance</span><span class="o">[</span><span class="kt">Point</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">]</span> <span class="o">{</span>
+
+    <span class="n">require</span><span class="o">(</span><span class="n">validation</span><span class="o">,</span>
+        <span class="s">s&quot;The length of entries for Trajectory should be at least 2, but got </span><span class="si">${</span><span class="n">entries</span><span class="o">.</span><span class="n">length</span><span class="si">}</span><span class="s">&quot;</span><span class="o">)</span>
+
+    <span class="k">override</span> <span class="k">def</span> <span class="n">validation</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="n">entries</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">1</span>
+
+    <span class="o">...</span>
+    <span class="o">}</span>
+</pre></div>
+</div>
+<p>We provide alternative construction methods:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">](</span><span class="n">pointArr</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Point</span><span class="o">],</span>
+                <span class="n">durationArr</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Duration</span><span class="o">],</span>
+                <span class="n">valueArr</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">V</span><span class="o">],</span>
+                <span class="n">d2</span><span class="k">:</span> <span class="kt">D</span><span class="o">)</span><span class="k">:</span> <span class="kt">Trajectory</span><span class="o">[</span><span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">]</span> <span class="o">=</span> <span class="o">...</span>
+
+<span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">](</span><span class="n">arr</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[(</span><span class="kt">Point</span><span class="p">,</span> <span class="kt">Duration</span><span class="p">,</span> <span class="kt">V</span><span class="o">)],</span> <span class="n">d</span><span class="k">:</span> <span class="kt">D</span><span class="o">)</span><span class="k">:</span> <span class="kt">Trajectory</span><span class="o">[</span><span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">]</span> <span class="o">=</span> <span class="o">...</span>
+
+<span class="cm">/** if value and data fields are empty, they can be omitted */</span>
+<span class="cm">/** the data field can be later set with .setData() function */</span>
+<span class="k">def</span> <span class="n">apply</span><span class="o">(</span><span class="n">arr</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[(</span><span class="kt">Point</span><span class="p">,</span> <span class="kt">Duration</span><span class="o">)])</span><span class="k">:</span> <span class="kt">Trajectory</span><span class="o">[</span><span class="kt">None.</span><span class="k">type</span><span class="p">,</span> <span class="kt">None.</span><span class="k">type</span><span class="o">]</span> <span class="o">=</span> <span class="o">...</span>
+
+<span class="k">def</span> <span class="n">apply</span><span class="o">(</span><span class="n">pointArr</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Point</span><span class="o">],</span>
+          <span class="n">durationArr</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Duration</span><span class="o">])</span><span class="k">:</span> <span class="kt">Trajectory</span><span class="o">[</span><span class="kt">None.</span><span class="k">type</span><span class="p">,</span> <span class="kt">None.</span><span class="k">type</span><span class="o">]</span> <span class="o">=</span> <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="spatialmap">
+<h4>SpatialMap<a class="headerlink" href="#spatialmap" title="Permalink to this headline">¶</a></h4>
+<p>A spatial map is a collection of geometries (we call it a cell), each of which contains information (the <code class="docutils literal notranslate"><span class="pre">value</span></code> field) of the same type.
+The value field can be of any type, even <code class="docutils literal notranslate"><span class="pre">Event</span></code> or <code class="docutils literal notranslate"><span class="pre">Array[Trajectory]</span></code>.
+The duration of each cell is not significant.
+Some typical spatial maps include road network (with LineString-typed cells), and grids (with equal-sized, non-overlapping polygon-typed cells).
+It is formally defined as:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SpatialMap</span><span class="o">[</span><span class="kt">S</span> <span class="k">&lt;:</span> <span class="kt">Geometry</span> <span class="kt">:</span> <span class="kt">ClassTag</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">](</span><span class="k">override</span> <span class="k">val</span> <span class="n">entries</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Entry</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V</span><span class="o">]],</span>
+                                              <span class="k">override</span> <span class="k">val</span> <span class="n">data</span><span class="k">:</span> <span class="kt">D</span><span class="o">)</span>
+       <span class="k">extends</span> <span class="nc">Instance</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">]</span> <span class="o">{</span>
+       <span class="o">...}</span>
+</pre></div>
+</div>
+<p>Each polygon corresponds to one <code class="docutils literal notranslate"><span class="pre">entry</span></code> in the <code class="docutils literal notranslate"><span class="pre">SpatialMap</span></code> class. The polygons can be of different shapes and sizes, and can also overlap.</p>
+<p>ST4ML provides two methods to construct an empty spatial map (with defined cells and empty values of each cell)</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">empty</span><span class="o">[</span><span class="kt">S</span> <span class="k">&lt;:</span> <span class="kt">Geometry</span> <span class="kt">:</span> <span class="kt">ClassTag</span><span class="p">,</span> <span class="kt">T:</span> <span class="kt">ClassTag</span><span class="o">](</span><span class="n">polygonArr</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">S</span><span class="o">])</span><span class="k">:</span> <span class="kt">SpatialMap</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span><span class="p">,</span> <span class="kt">None.</span><span class="k">type</span><span class="o">]</span> <span class="o">=</span> <span class="o">...</span>
+
+<span class="k">def</span> <span class="n">empty</span><span class="o">[</span><span class="kt">T:</span> <span class="kt">ClassTag</span><span class="o">](</span><span class="n">extentArr</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Extent</span><span class="o">])</span><span class="k">:</span> <span class="kt">SpatialMap</span><span class="o">[</span><span class="kt">Polygon</span><span class="p">,</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span><span class="p">,</span> <span class="kt">None.</span><span class="k">type</span><span class="o">]</span> <span class="o">=</span> <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="timeseries">
+<h4>TimeSeries<a class="headerlink" href="#timeseries" title="Permalink to this headline">¶</a></h4>
+<p>A time series is a collection of durations, each of which contains information (the <code class="docutils literal notranslate"><span class="pre">value</span></code> field) of the same type.
+The value field can be of any type, even <code class="docutils literal notranslate"><span class="pre">Event</span></code> or <code class="docutils literal notranslate"><span class="pre">Array[Trajectory]</span></code>.
+The shape of each cell is not significant, and is restricted to be a <code class="docutils literal notranslate"><span class="pre">Polygon</span></code>. It is lazily calculated as the MBR of all elements of the value field if applicable.
+The most common time series are with non-overlapping continuous fixed-length durations, e.g., [12:00-13:00, 13:00-14:00, …]. Practically, programmers are free to create time series with flexible durations (overlapping, of different length).
+It is formally defined as:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TimeSeries</span><span class="o">[</span><span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">](</span>
+                    <span class="k">override</span> <span class="k">val</span> <span class="n">entries</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Entry</span><span class="o">[</span><span class="kt">Polygon</span><span class="p">,</span> <span class="kt">V</span><span class="o">]],</span>
+                    <span class="k">override</span> <span class="k">val</span> <span class="n">data</span><span class="k">:</span> <span class="kt">D</span><span class="o">)</span>
+    <span class="k">extends</span> <span class="nc">Instance</span><span class="o">[</span><span class="kt">Polygon</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">]</span> <span class="o">{</span>
+    <span class="o">...}</span>
+</pre></div>
+</div>
+<p>ST4ML provides a method to construct an empty time series (with defined cells and empty values of each cell)</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">empty</span><span class="o">[</span><span class="kt">T:</span> <span class="kt">ClassTag</span><span class="o">](</span><span class="n">durArr</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Duration</span><span class="o">])</span><span class="k">:</span> <span class="kt">TimeSeries</span><span class="o">[</span><span class="kt">Array</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span><span class="p">,</span> <span class="kt">None.</span><span class="k">type</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="raster">
+<span id="id2"></span><h4>Raster<a class="headerlink" href="#raster" title="Permalink to this headline">¶</a></h4>
+<p>A raster is a collection of 3-d cubes in the ST space. Each cell is defined with a 2-d shape with a duration. Raster instance is useful when both the spatial and temporal information of the cell is required for calculation.
+Similarly to spatial map, the cell can be of any shape. It is formally defined as:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Raster</span><span class="o">[</span><span class="kt">S</span> <span class="k">&lt;:</span> <span class="kt">Geometry</span> <span class="kt">:</span> <span class="kt">ClassTag</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">](</span><span class="k">override</span> <span class="k">val</span> <span class="n">entries</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Entry</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V</span><span class="o">]],</span>
+                                         <span class="k">override</span> <span class="k">val</span> <span class="n">data</span><span class="k">:</span> <span class="kt">D</span><span class="o">)</span>
+    <span class="k">extends</span> <span class="nc">Instance</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">]</span> <span class="o">{</span>
+    <span class="o">...}</span>
+</pre></div>
+</div>
+<p>Three ways to create an empty raster are described below:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">empty</span><span class="o">[</span><span class="kt">T:</span> <span class="kt">ClassTag</span><span class="o">](</span><span class="n">entryArr</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Entry</span><span class="o">[</span><span class="kt">Polygon</span><span class="p">,</span> <span class="k">_</span><span class="o">]])</span><span class="k">:</span> <span class="kt">Raster</span><span class="o">[</span><span class="kt">Polygon</span><span class="p">,</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span><span class="p">,</span> <span class="kt">None.</span><span class="k">type</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}</span>
+
+<span class="k">def</span> <span class="n">empty</span><span class="o">[</span><span class="kt">T:</span> <span class="kt">ClassTag</span><span class="o">](</span><span class="n">extentArr</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Extent</span><span class="o">],</span> <span class="n">durArr</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Duration</span><span class="o">])</span><span class="k">:</span> <span class="kt">Raster</span><span class="o">[</span><span class="kt">Polygon</span><span class="p">,</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span><span class="p">,</span> <span class="kt">None.</span><span class="k">type</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}</span>
+
+<span class="k">def</span> <span class="n">empty</span><span class="o">[</span><span class="kt">T:</span> <span class="kt">ClassTag</span><span class="o">](</span><span class="n">polygonArr</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Polygon</span><span class="o">],</span> <span class="n">durArr</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Duration</span><span class="o">])</span><span class="k">:</span> <span class="kt">Raster</span><span class="o">[</span><span class="kt">Polygon</span><span class="p">,</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span><span class="p">,</span> <span class="kt">None.</span><span class="k">type</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="instance-operations">
+<h4>Instance operations<a class="headerlink" href="#instance-operations" title="Permalink to this headline">¶</a></h4>
+<p>Inheriting the base <code class="docutils literal notranslate"><span class="pre">Instance</span></code> class, all ST instances support the following useful functions:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// find the boundaries</span>
+<span class="k">lazy</span> <span class="k">val</span> <span class="n">extent</span><span class="k">:</span> <span class="kt">Extent</span> <span class="o">=</span>
+  <span class="nc">Extent</span><span class="o">(</span><span class="n">entries</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">extent</span><span class="o">))</span>
+
+<span class="k">lazy</span> <span class="k">val</span> <span class="n">duration</span><span class="k">:</span> <span class="kt">Duration</span> <span class="o">=</span>
+  <span class="nc">Duration</span><span class="o">(</span><span class="n">entries</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">duration</span><span class="o">))</span>
+
+<span class="c1">// some statistics of an instance</span>
+<span class="k">def</span> <span class="n">entryLength</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">entries</span><span class="o">.</span><span class="n">length</span>
+
+<span class="k">def</span> <span class="n">center</span><span class="k">:</span> <span class="o">(</span><span class="kt">Point</span><span class="o">,</span> <span class="kt">Long</span><span class="o">)</span> <span class="o">=</span> <span class="o">(</span><span class="n">spatialCenter</span><span class="o">,</span> <span class="n">temporalCenter</span><span class="o">)</span>
+
+<span class="k">def</span> <span class="n">spatialCenter</span><span class="k">:</span> <span class="kt">Point</span> <span class="o">=</span> <span class="n">extent</span><span class="o">.</span><span class="n">center</span>
+
+<span class="k">def</span> <span class="n">temporalCenter</span><span class="k">:</span> <span class="kt">Long</span> <span class="o">=</span> <span class="n">duration</span><span class="o">.</span><span class="n">center</span>
+
+<span class="k">def</span> <span class="n">toGeometry</span><span class="k">:</span> <span class="kt">Geometry</span>
+
+<span class="c1">// Predicates</span>
+<span class="k">def</span> <span class="n">intersects</span><span class="o">(</span><span class="n">g</span><span class="k">:</span> <span class="kt">Geometry</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="n">toGeometry</span><span class="o">.</span><span class="n">intersects</span><span class="o">(</span><span class="n">g</span><span class="o">)</span>
+
+<span class="k">def</span> <span class="n">intersects</span><span class="o">(</span><span class="n">e</span><span class="k">:</span> <span class="kt">Extent</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="n">toGeometry</span><span class="o">.</span><span class="n">intersects</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>
+
+<span class="k">def</span> <span class="n">intersects</span><span class="o">(</span><span class="n">dur</span><span class="k">:</span> <span class="kt">Duration</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="n">duration</span><span class="o">.</span><span class="n">intersects</span><span class="o">(</span><span class="n">dur</span><span class="o">)</span>
+
+<span class="k">def</span> <span class="n">intersects</span><span class="o">(</span><span class="n">g</span><span class="k">:</span> <span class="kt">Geometry</span><span class="o">,</span> <span class="n">dur</span><span class="k">:</span> <span class="kt">Duration</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="n">intersects</span><span class="o">(</span><span class="n">dur</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">intersects</span><span class="o">(</span><span class="n">g</span><span class="o">)</span>
+
+<span class="k">def</span> <span class="n">intersects</span><span class="o">(</span><span class="n">e</span><span class="k">:</span> <span class="kt">Extent</span><span class="o">,</span> <span class="n">dur</span><span class="k">:</span> <span class="kt">Duration</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="n">intersects</span><span class="o">(</span><span class="n">dur</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">intersects</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>
+
+<span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">g</span><span class="k">:</span> <span class="kt">Geometry</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="n">toGeometry</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="n">g</span><span class="o">)</span>
+
+<span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">e</span><span class="k">:</span> <span class="kt">Extent</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="n">toGeometry</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>
+
+<span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">dur</span><span class="k">:</span> <span class="kt">Duration</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="n">duration</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="n">dur</span><span class="o">)</span>
+
+<span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">g</span><span class="k">:</span> <span class="kt">Geometry</span><span class="o">,</span> <span class="n">dur</span><span class="k">:</span> <span class="kt">Duration</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="n">contains</span><span class="o">(</span><span class="n">dur</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">contains</span><span class="o">(</span><span class="n">g</span><span class="o">)</span>
+
+<span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">e</span><span class="k">:</span> <span class="kt">Extent</span><span class="o">,</span> <span class="n">dur</span><span class="k">:</span> <span class="kt">Duration</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="n">contains</span><span class="o">(</span><span class="n">dur</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">contains</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>
+
+<span class="c1">// Methods</span>
+<span class="k">def</span> <span class="n">mapTemporal</span><span class="o">(</span><span class="n">f</span><span class="k">:</span> <span class="kt">Duration</span> <span class="o">=&gt;</span> <span class="nc">Duration</span><span class="o">)</span><span class="k">:</span> <span class="kt">Instance</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">]</span>
+
+<span class="k">def</span> <span class="n">mapValue</span><span class="o">[</span><span class="kt">V1</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="kt">V</span> <span class="o">=&gt;</span> <span class="n">V1</span><span class="o">)</span><span class="k">:</span> <span class="kt">Instance</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V1</span><span class="p">,</span> <span class="kt">D</span><span class="o">]</span>
+
+<span class="k">def</span> <span class="n">mapEntries</span><span class="o">[</span><span class="kt">V1</span><span class="o">](</span><span class="n">f1</span><span class="k">:</span> <span class="kt">S</span> <span class="o">=&gt;</span> <span class="n">S</span><span class="o">,</span>
+                   <span class="n">f2</span><span class="k">:</span> <span class="kt">Duration</span> <span class="o">=&gt;</span> <span class="nc">Duration</span><span class="o">,</span>
+                   <span class="n">f3</span><span class="k">:</span> <span class="kt">V</span> <span class="o">=&gt;</span> <span class="n">V1</span><span class="o">)</span><span class="k">:</span> <span class="kt">Instance</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V1</span><span class="p">,</span> <span class="kt">D</span><span class="o">]</span>
+
+<span class="k">def</span> <span class="n">mapEntries</span><span class="o">[</span><span class="kt">V1</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="kt">Entry</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="nc">Entry</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V1</span><span class="o">])</span><span class="k">:</span> <span class="kt">Instance</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V1</span><span class="p">,</span> <span class="kt">D</span><span class="o">]</span>
+
+<span class="k">def</span> <span class="n">mapData</span><span class="o">[</span><span class="kt">D1</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="kt">D</span> <span class="o">=&gt;</span> <span class="n">D1</span><span class="o">)</span><span class="k">:</span> <span class="kt">Instance</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D1</span><span class="o">]</span>
+
+<span class="c1">// not inheriting, but separately implemented</span>
+
+<span class="k">def</span> <span class="n">mapSpatial</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Geometry</span> <span class="kt">:</span> <span class="kt">ClassTag</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="kt">S</span> <span class="o">=&gt;</span> <span class="n">T</span><span class="o">)</span><span class="k">:</span> <span class="kt">Instance</span><span class="o">[</span><span class="kt">T</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">]</span>
+
+<span class="k">def</span> <span class="n">mapValuePlus</span><span class="o">[</span><span class="kt">V1</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="o">(</span><span class="kt">V</span><span class="o">,</span> <span class="kt">S</span><span class="o">,</span> <span class="nc">Duration</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="n">V1</span><span class="o">)</span><span class="k">:</span> <span class="kt">Instance</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V1</span><span class="p">,</span> <span class="kt">D</span><span class="o">]</span>
+
+<span class="k">def</span> <span class="n">mapDataPlus</span><span class="o">[</span><span class="kt">D1</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="o">(</span><span class="kt">D</span><span class="o">,</span> <span class="kt">Polygon</span><span class="o">,</span> <span class="nc">Duration</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="n">D1</span><span class="o">)</span><span class="k">:</span> <span class="kt">Instance</span><span class="o">[</span><span class="kt">S</span><span class="p">,</span> <span class="kt">V</span><span class="p">,</span> <span class="kt">D1</span><span class="o">]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The above methods are not exhaustive. Some internally used functions are also exposed to programmers and might be useful in their applications.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="operators">
+<h2>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="selector">
+<h3>Selector<a class="headerlink" href="#selector" title="Permalink to this headline">¶</a></h3>
+<p>The selector is used to load <em>targeted</em> data from persistent storage to the memory pool and represent them as RDD.
+The selection step is realized in two lines of scala code: one to initialize the selector and the other to build partial DAG.</p>
+<p>The following example illustrates how to select trajectories that fall in range <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">10,</span> <span class="pre">10),</span> <span class="pre">Duration(0,</span> <span class="pre">100)</span></code> from <code class="docutils literal notranslate"><span class="pre">fileName</span></code> and construct a <code class="docutils literal notranslate"><span class="pre">trajRDD</span></code>:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">spatial</span> <span class="o">=</span> <span class="nc">Extent</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">10</span><span class="o">).</span><span class="n">toPolygon</span>
+<span class="k">val</span> <span class="n">temporal</span> <span class="o">=</span> <span class="nc">Duration</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">100</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">numParititions</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="k">val</span> <span class="n">fileName</span> <span class="o">=</span> <span class="s">&quot;Path/To/Data&quot;</span>
+
+<span class="k">val</span> <span class="n">selector</span> <span class="o">=</span> <span class="nc">Selector</span><span class="o">[</span><span class="kt">TRAJ</span><span class="o">](</span><span class="n">spatial</span><span class="o">,</span> <span class="n">temporal</span><span class="o">,</span> <span class="n">numPartitions</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">trajRDD</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">selectTraj</span><span class="o">(</span><span class="n">fileName</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>To initiate a <code class="docutils literal notranslate"><span class="pre">Selector</span></code>, the spatial and temporal ranges have to be indicated.
+To achieve the desired parallelism, either the number of partitions or a <code class="docutils literal notranslate"><span class="pre">STPartitioner</span></code> has to be provided.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">I</span> <span class="k">&lt;:</span> <span class="kt">Instance</span><span class="o">[</span><span class="k">_</span><span class="p">,</span> <span class="k">_</span><span class="p">,</span> <span class="k">_</span><span class="o">]</span> <span class="kt">:</span> <span class="kt">ClassTag</span><span class="o">](</span><span class="n">sQuery</span><span class="k">:</span> <span class="kt">Polygon</span><span class="o">,</span>
+                                             <span class="n">tQuery</span><span class="k">:</span> <span class="kt">Duration</span><span class="o">,</span>
+                                             <span class="n">numPartitions</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Selector</span><span class="o">[</span><span class="kt">I</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}</span>
+
+<span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">I</span> <span class="k">&lt;:</span> <span class="kt">Instance</span><span class="o">[</span><span class="k">_</span><span class="p">,</span> <span class="k">_</span><span class="p">,</span> <span class="k">_</span><span class="o">]</span> <span class="kt">:</span> <span class="kt">ClassTag</span><span class="o">](</span><span class="n">sQuery</span><span class="k">:</span> <span class="kt">Polygon</span><span class="o">,</span>
+                                             <span class="n">tQuery</span><span class="k">:</span> <span class="kt">Duration</span><span class="o">,</span>
+                                             <span class="n">partitioner</span><span class="k">:</span> <span class="kt">STPartitioner</span><span class="o">)</span><span class="k">:</span> <span class="kt">Selector</span><span class="o">[</span><span class="kt">I</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Selector</span></code> supports select <code class="docutils literal notranslate"><span class="pre">Event</span></code> or <code class="docutils literal notranslate"><span class="pre">Trajectory</span></code> data that meet  <a class="reference internal" href="data_standard.html#data-standard"><span class="std std-ref">ST4ML standard</span></a>. Programmers may convert the source data to the standard with his preferred methods.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Selector</span></code> provides the following two functions to execute selection:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">selectEvent</span><span class="o">(</span><span class="n">dataDir</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+                <span class="n">metaDataDir</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&quot;None&quot;</span><span class="o">,</span>
+                <span class="n">index</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span>
+                <span class="n">partition</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Event</span><span class="o">[</span><span class="kt">Geometry</span><span class="p">,</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span><span class="p">,</span> <span class="kt">String</span><span class="o">]]</span> <span class="o">=</span> <span class="o">{...}</span>
+
+<span class="k">def</span> <span class="n">selectTraj</span><span class="o">(</span><span class="n">dataDir</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+               <span class="n">metaDataDir</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&quot;None&quot;</span><span class="o">,</span>
+               <span class="n">index</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span>
+               <span class="n">partition</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span><span class="k">:</span> <span class="kt">RDD</span><span class="o">[</span><span class="kt">Trajectory</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span><span class="p">,</span> <span class="kt">String</span><span class="o">]]</span> <span class="o">=</span> <span class="o">{...}</span>
+</pre></div>
+</div>
+<p>Here the <code class="docutils literal notranslate"><span class="pre">metaDataDir</span></code> refers to the optimized data loading, which requires a pre-generated metadata file.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">index</span></code> is set true, a per-partition R-tree index is built to facilitate data selection (should be useful when the data size is large and the selectivity is small, otherwise the R-tree generation time may dominate and the disposable index is not worthwhile).</p>
+<p>Similarly, the <code class="docutils literal notranslate"><span class="pre">partition</span></code> flag can be toggled by the programmer. If the application is simple, he may disable the data repartitioning.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Selector</span></code> returns a RDD of <code class="docutils literal notranslate"><span class="pre">Event</span></code> or <code class="docutils literal notranslate"><span class="pre">Trajectory</span></code>, where each entry has String-typed <code class="docutils literal notranslate"><span class="pre">`value</span></code> and <code class="docutils literal notranslate"><span class="pre">data</span></code> fields according to the ST4ML data standard. Programmers may apply data transformation on the two fields making use of the instance functions.</p>
+</div>
+<div class="section" id="converter">
+<h3>Converter<a class="headerlink" href="#converter" title="Permalink to this headline">¶</a></h3>
+<p>ST4ML pre-builds the following conversions among the ST instances. The converters are packaged in <code class="docutils literal notranslate"><span class="pre">st4ml.operators.converter</span></code>.</p>
+<div class="section" id="event-to-trajectory">
+<h4>Event to Trajectory<a class="headerlink" href="#event-to-trajectory" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">Event2TrajConverter</span></code> groups events according to their <code class="docutils literal notranslate"><span class="pre">data</span></code> fields (which may represent an Id or name) to form trajectories. The converter groups the events and order them according to the timestamp.</p>
+<p>The shape of the events are required to be <code class="docutils literal notranslate"><span class="pre">Point</span></code>.</p>
+<p>Usage:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">type</span> <span class="kt">V</span> <span class="o">=</span> <span class="nc">None</span><span class="o">.</span><span class="k">type</span>
+<span class="k">type</span> <span class="kt">D</span> <span class="o">=</span> <span class="nc">String</span>
+<span class="k">val</span> <span class="n">converter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Event2TrajConverter</span>
+<span class="c1">// to convert an RDD of Event[Point, None.type, String]</span>
+<span class="k">val</span> <span class="n">trajRDD</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="o">[</span><span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">](</span><span class="n">eventRDD</span><span class="o">)</span>
+<span class="c1">// return an RDD of Trajectory[None.type, String], the data field is the same as the events.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trajectory-to-event">
+<h4>Trajectory to Event<a class="headerlink" href="#trajectory-to-event" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">Traj2EventConverter</span></code> takes the sojourn points inside each trajectory as point-shaped individual events.</p>
+<p>Usage:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">type</span> <span class="kt">V</span> <span class="o">=</span> <span class="nc">None</span><span class="o">.</span><span class="k">type</span>
+<span class="k">type</span> <span class="kt">D</span> <span class="o">=</span> <span class="nc">String</span>
+<span class="k">val</span> <span class="n">converter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Traj2EventConverter</span>
+<span class="c1">// to convert an RDD of Trajectory[None.type, String]</span>
+<span class="k">val</span> <span class="n">trajRDD</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="o">[</span><span class="kt">V</span><span class="p">,</span> <span class="kt">D</span><span class="o">](</span><span class="n">trajRDD</span><span class="o">)</span>
+<span class="c1">// return an RDD of Event[Point, None.type, String], the data field of each event is the same as the trajectory.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="event-and-trajectory-to-spatial-map">
+<span id="id3"></span><h4>Event and Trajectory to Spatial Map<a class="headerlink" href="#event-and-trajectory-to-spatial-map" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">Event2SmConverter</span></code> and <code class="docutils literal notranslate"><span class="pre">Traj2SmConverter</span></code> groups events and trajectories according to their spatial locations.
+Since they behave similarly, we explain them together.</p>
+<p>When doing allocation, we check intersection, If a shape (e.g., linestring for trajectory) intersects a cell, it is allocated to the cell.
+This incurs duplication of events/trajectories but ensures correctness for various applications.</p>
+<p>Instantiation:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Event2SpatialMapConverter</span><span class="o">(</span><span class="n">sArray</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Polygon</span><span class="o">],</span>
+                            <span class="k">override</span> <span class="k">val</span> <span class="n">optimization</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&quot;rtree&quot;</span>
+                           <span class="o">)</span> <span class="k">extends</span> <span class="nc">Converter</span> <span class="o">{</span>
+                           <span class="o">...}</span>
+
+<span class="k">class</span> <span class="nc">Traj2SpatialMapConverter</span><span class="o">(</span><span class="n">sArray</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Polygon</span><span class="o">],</span>
+                            <span class="k">override</span> <span class="k">val</span> <span class="n">optimization</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&quot;rtree&quot;</span>
+                           <span class="o">)</span> <span class="k">extends</span> <span class="nc">Converter</span> <span class="o">{</span>
+                           <span class="o">...}</span>
+</pre></div>
+</div>
+<p>To instantiate a <code class="docutils literal notranslate"><span class="pre">xx2SmConverter</span></code>, the programmer needs to identify the structure of the spatial map,
+which is represented by an array of <code class="docutils literal notranslate"><span class="pre">Polygon</span></code>. An optimization method can also be identified, which can be selected from <code class="docutils literal notranslate"><span class="pre">&quot;none&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;rtree&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;regular&quot;</span></code>.
+In general, the R-tree based conversion is faster than brute-force iteration (“none”). If <code class="docutils literal notranslate"><span class="pre">&quot;regular&quot;</span></code> is chosen, a regularity check is conducted before conversion.</p>
+<p>A spatial map is regular only if all its cells have the same shape and size, while they densely tile the whole space (i.e., the MBR of the cells equals the sum of areas of the cells). In this case, no calculation is needed
+and the conversion can be finished in the shortest time.</p>
+<p>During these types of conversions, the data locality is not changed: only map-sided transformations are implemented.</p>
+<p>The resulting spatial map has <code class="docutils literal notranslate"><span class="pre">spatial</span></code> type of <code class="docutils literal notranslate"><span class="pre">Polygon</span></code>, <code class="docutils literal notranslate"><span class="pre">value</span></code> type of <code class="docutils literal notranslate"><span class="pre">Array[Event[S,</span> <span class="pre">V,</span> <span class="pre">D]]</span></code>, which is the same as the input events, and <code class="docutils literal notranslate"><span class="pre">data</span></code> field of <code class="docutils literal notranslate"><span class="pre">None.type</span></code>.</p>
+<p>Usage example:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// sArray is an array of Polygons</span>
+<span class="k">val</span> <span class="n">converter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Event2SmConverter</span><span class="o">(</span><span class="n">sArray</span><span class="o">,</span> <span class="s">&quot;regular&quot;</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">tsRDD</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="o">(</span><span class="n">eventRDD</span><span class="o">)</span>
+<span class="c1">// return an RDD of RDD[SpatialMap[Polygon, Array[Event[S, V, D]], None.type]]</span>
+</pre></div>
+</div>
+<p>ST4ML provides two extension points, which allow programmers to perform customized conversion.</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// the two extensions can also be used individually</span>
+<span class="k">val</span> <span class="n">tsRDD</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="o">(</span><span class="n">eventRDD</span><span class="o">,</span> <span class="n">preMap</span><span class="o">,</span> <span class="n">agg</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">preMap</span></code>  function performs transformation on the events (trajectories) before conversion.
+E.g., <code class="docutils literal notranslate"><span class="pre">f:</span> <span class="pre">Event[S1,</span> <span class="pre">V1,</span> <span class="pre">D1]</span> <span class="pre">=&gt;</span> <span class="pre">Event[S2,</span> <span class="pre">V2,</span> <span class="pre">D2]</span></code></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">agg</span></code> functions performs in-cell aggregation (still in a distributed way, no data shuffling across machines happen).
+E.g., <code class="docutils literal notranslate"><span class="pre">f:</span> <span class="pre">Array[Event[S2,</span> <span class="pre">V2,</span> <span class="pre">D2]]</span> <span class="pre">=&gt;</span> <span class="pre">T</span></code></p>
+</div>
+<div class="section" id="event-and-trajectory-to-time-series">
+<h4>Event and Trajectory to Time Series<a class="headerlink" href="#event-and-trajectory-to-time-series" title="Permalink to this headline">¶</a></h4>
+<p>These two conversions are similar to event and trajectory to spatial map conversions.</p>
+<p>It is recommended to read <a class="reference internal" href="#event-and-trajectory-to-spatial-map"><span class="std std-ref">Event and Trajectory to Spatial Map</span></a> first before applying a converter from this category.</p>
+<p>The only difference is that for instantiation, an array of durations should be identified.
+The optimizations, extensions and etc. also apply here.</p>
+<p>Usage example:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// tArray is an array of Durations</span>
+<span class="k">val</span> <span class="n">converter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Event2TsConverter</span><span class="o">(</span><span class="n">tArray</span><span class="o">,</span> <span class="s">&quot;regular&quot;</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">tsRDD</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="o">(</span><span class="n">eventRDD</span><span class="o">)</span>
+<span class="c1">// return an RDD of RDD[TimeSeries[Polygon, Array[Event[S, V, D]], None.type]]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="event-and-trajectory-to-raster">
+<h4>Event and Trajectory to Raster<a class="headerlink" href="#event-and-trajectory-to-raster" title="Permalink to this headline">¶</a></h4>
+<p>These two conversions are similar to event and trajectory to spatial map conversions.</p>
+<p>It is recommended to read <a class="reference internal" href="#event-and-trajectory-to-spatial-map"><span class="std std-ref">Event and Trajectory to Spatial Map</span></a> first before applying a converter from this category.</p>
+<p>The only difference is that for instantiation, two arrays should be identified. The first array <code class="docutils literal notranslate"><span class="pre">Array[Polygon]</span></code> are the spatial information of the cells
+and the second <code class="docutils literal notranslate"><span class="pre">Array[Duration]</span></code> are the durations. Note that the elements of the two arrays should 1-to-1 matched.</p>
+<p>The optimizations, extensions and etc. also apply here.</p>
+<p>Usage example:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// sArray is an array of polygons, and tArray is an array of Durations</span>
+<span class="k">val</span> <span class="n">converter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Event2RasterConverter</span><span class="o">(</span><span class="n">sArray</span><span class="o">,</span> <span class="n">tArray</span><span class="o">,</span> <span class="s">&quot;regular&quot;</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">tsRDD</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="o">(</span><span class="n">eventRDD</span><span class="o">)</span>
+<span class="c1">// return an RDD of RDD[Raster[Polygon, Array[Event[S, V, D]], None.type]]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="raster-to-spatial-map-and-time-series">
+<h4>Raster to Spatial Map and Time Series<a class="headerlink" href="#raster-to-spatial-map-and-time-series" title="Permalink to this headline">¶</a></h4>
+<p>Sometimes we have a fine-grained ST-partitioned raster and want to regroup it along the spatial or temporal dimension.</p>
+<p>Basically, what these converters do is to regroup the raster cells and merge the contents inside. When converting to spatial maps,
+an array of polygons have to be provided and when converting to time series, an array of durations have to be provided.</p>
+<p>Usage example:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// the types have to be identified: S, V1, D of the raster as well as the V2 for the resulting spatial map</span>
+<span class="k">val</span> <span class="n">converter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Raster2SmConverter</span><span class="o">[</span><span class="kt">Polygon</span><span class="p">,</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">None.</span><span class="k">type</span><span class="p">,</span> <span class="kt">Int</span><span class="o">](</span><span class="n">map</span><span class="o">)</span>
+
+<span class="c1">// the function for converting Array[V1] to V2</span>
+<span class="k">def</span> <span class="n">f</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">Int</span><span class="o">])</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">sum</span>
+<span class="k">val</span> <span class="n">cRDD</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="o">(</span><span class="n">rasterRDD</span><span class="o">,</span> <span class="n">f</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="extractor">
+<h3>Extractor<a class="headerlink" href="#extractor" title="Permalink to this headline">¶</a></h3>
+<p>The usage illustration of built-in extractors is as follows:</p>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="cm">/** Find abnormal events defined on occurring at specific ST locations, return filtered events RDD */</span>
+<span class="k">object</span> <span class="nc">EventAnomalyExtractor</span><span class="o">{</span>
+<span class="c1">// explicitly define ST ranges, E is the input event type</span>
+<span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">E</span><span class="p">,</span> <span class="kt">G</span> <span class="k">&lt;:</span> <span class="kt">Geometry:</span> <span class="kt">ClassTag</span><span class="o">](</span><span class="n">sRanges</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">G</span><span class="o">],</span> <span class="n">tRanges</span><span class="k">:</span><span class="kt">Array</span><span class="o">[</span><span class="kt">Duration</span><span class="o">])</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}</span>
+<span class="c1">// define periodical durations, e.g., &quot;23,4,daily&quot;</span>
+<span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">G</span> <span class="k">&lt;:</span> <span class="kt">Geometry</span><span class="p">,</span> <span class="kt">ClassTag</span><span class="o">](</span><span class="n">sRanges</span><span class="k">:</span><span class="kt">Array</span><span class="o">[</span><span class="kt">G</span><span class="o">],</span> <span class="n">tRanges</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}}</span>
+
+<span class="cm">/** Find companion relationships among events (occur within ST proximity), return an RDD consists of companion pairs */</span>
+<span class="k">object</span> <span class="nc">EventCompanionExtractor</span><span class="o">{</span>
+  <span class="c1">// define the max distance as threshold, unit in meter and second if &quot;useGreatCircle&quot;</span>
+  <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="n">sThreshold</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span> <span class="n">tThreshold</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">useGreatCircle</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}}</span>
+
+<span class="cm">/** Cluster events using DBSCAN , return a cluster RDD */</span>
+<span class="k">object</span> <span class="nc">EventClusterExtractor</span><span class="o">{</span>
+  <span class="c1">// define the number of clusters, epsilon, minimal points, and distance metric</span>
+  <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">E</span><span class="o">](</span><span class="n">n</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">eps</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span> <span class="n">minPoints</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">metric</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&quot;euclidean&quot;</span><span class="o">)</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">E</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}}</span>
+
+<span class="cm">/** Extract speed for trajectories */</span>
+<span class="k">object</span> <span class="nc">TrajSpeedExtractor</span><span class="o">{</span>
+  <span class="cm">/* define the distance metric, and the calculation mode (&quot;avg&quot; for using consecutive points to calculate distance and then divide by total time, &quot;odAvg&quot; for using OD distance dividing by total time, &quot;interval&quot; by resulting interval speed of every consecutive points&quot;), return an RDD where the value fields of the trajectories are replaced by the speed */</span>
+  <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="n">metric</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&quot;greatCircle&quot;</span><span class="o">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s">&quot;avg&quot;</span><span class="o">)</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}}</span>
+
+<span class="cm">/** Find the origin-destination of trajectories */</span>
+<span class="k">object</span> <span class="nc">TrajOdExtractor</span><span class="o">{</span>
+   <span class="cm">/* if external POI table is provided, map the OD points to the nearest POI, otherwise return the raw Points; return an RDD[(T,(Point, Point))] */</span>
+   <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">T</span><span class="p">,</span> <span class="kt">G</span> <span class="k">&lt;:</span> <span class="kt">Geometry</span><span class="o">](</span><span class="n">table</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Array</span><span class="o">[(</span><span class="kt">G</span><span class="p">,</span> <span class="kt">String</span><span class="o">)]]</span> <span class="o">=</span> <span class="nc">None</span><span class="o">)</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}}</span>
+
+<span class="cm">/** Find the stay points inside trajectories */</span>
+<span class="k">object</span> <span class="nc">TrajStayPointExtractor</span><span class="o">{</span>
+  <span class="cm">/* define the max distance as threshold, unit in meter and second if &quot;useGreatCircle&quot;, return an RDD[(T, Array[Point])] */</span>
+  <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="n">sThreshold</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span> <span class="n">tThreshold</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">useGreatCircle</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}}</span>
+
+<span class="cm">/** Find turnings of trajectories */</span>
+<span class="k">object</span> <span class="nc">TrajTurningExtractor</span><span class="o">{</span>
+  <span class="cm">/* use road network, input a defined structure, return an RDD where the value field of each trajectory sojourn point records the turning: 0 for left and 1 for right */</span>
+  <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="n">rn</span><span class="k">:</span> <span class="kt">RoadGraph</span><span class="o">)</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}</span>
+    <span class="cm">/* use raw gps points, the turning angle should be bigger than threshold in degree, return an RDD where the value field of each trajectory sojourn point records the turning: 0 for left and 1 for right */</span>
+  <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="n">threshold</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}}</span>
+
+<span class="cm">/** Extract the flow count of a time series */</span>
+<span class="k">object</span> <span class="nc">TsFlowExtractor</span><span class="o">{</span>
+ <span class="cm">/** require the value fields to be type of Array[X], return an RDD[TimeSeries[Int, _]] */</span>
+ <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}}</span>
+
+<span class="cm">/** Extract the average speed of different time slots inside a time series */</span>
+<span class="k">object</span> <span class="nc">TsSpeedExtractor</span><span class="o">{</span>
+ <span class="cm">/** require the value fields to be type of Array[Trajetory], the mode can be &quot;intesect&quot; to consider all trajectories that intersects the slot, or &quot;contain&quot; to only consider trajectories fully inside a slot, or &quot;trim&quot; to only retain the subtrajectory inside a slot */</span>
+ <span class="k">return</span> <span class="n">an</span> <span class="nc">RDD</span><span class="o">[</span><span class="kt">TimeSeries</span><span class="o">[</span><span class="kt">Double</span><span class="p">,</span> <span class="k">_</span><span class="o">]]</span> <span class="o">*/</span>
+ <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="n">mode</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&quot;intersect&quot;</span><span class="o">)</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}}</span>
+
+<span class="cm">/** For each time slot, find the window frequency (i.e., count) */</span>
+<span class="k">object</span> <span class="nc">TsSpeedExtractor</span><span class="o">{</span>
+ <span class="cm">/** the window is defined as (length, overlap) */</span>
+ <span class="k">return</span> <span class="n">an</span> <span class="nc">RDD</span><span class="o">[</span><span class="kt">TimeSeries</span><span class="o">[</span><span class="kt">Double</span><span class="p">,</span> <span class="k">_</span><span class="o">]]</span> <span class="o">*/</span>
+ <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="n">window</span><span class="k">:</span> <span class="o">(</span><span class="kt">Long</span><span class="o">,</span> <span class="kt">Long</span><span class="o">))</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}}</span>
+
+<span class="cm">/** Extract the flow count of a spatial map */</span>
+<span class="k">object</span> <span class="nc">SmFlowExtractor</span><span class="o">{</span>
+ <span class="cm">/** require the value fields to be type of Array[X], return an RDD[SpatialMap[Int, _]] */</span>
+ <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">S</span><span class="o">]</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">S</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}}</span>
+
+<span class="cm">/** Extract the average speed of different cells inside a spatial map */</span>
+<span class="k">object</span> <span class="nc">SmSpeedExtractor</span><span class="o">{</span>
+ <span class="cm">/** require the value fields to be type of Array[Trajetory], the mode can be &quot;intesect&quot; to consider all trajectories that intersects the cell, or &quot;contain&quot; to only consider trajectories fully inside a cell, or &quot;trim&quot; to only retain the subtrajectory inside a cell */</span>
+ <span class="k">return</span> <span class="n">an</span> <span class="nc">RDD</span><span class="o">[</span><span class="kt">SpatialMap</span><span class="o">[</span><span class="kt">Double</span><span class="p">,</span> <span class="k">_</span><span class="o">]]</span> <span class="o">*/</span>
+ <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">S</span><span class="o">](</span><span class="n">mode</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&quot;intersect&quot;</span><span class="o">)</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">S</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}}</span>
+
+<span class="cm">/** Extract the transition among different cells inside a spatial map */</span>
+<span class="k">object</span> <span class="nc">SmTransitionExtractor</span><span class="o">{</span>
+ <span class="cm">/** require the value fields to be type of Array[Trajetory], return an RDD of spatial map which has value fields of (Array[(Int, Int)], Int, Array[(Int, Int)]), which represents the in, stay and out count */</span>
+ <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">S</span><span class="o">]</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">S</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}}</span>
+
+<span class="cm">/** Extract the flow count of a raster */</span>
+<span class="k">object</span> <span class="nc">RasterFlowExtractor</span><span class="o">{</span>
+ <span class="cm">/** require the value fields to be type of Array[X], return an RDD[Raster[Int, _]] */</span>
+ <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">R</span><span class="o">]</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">R</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}}</span>
+
+<span class="cm">/** Extract the average speed of different cells inside a raster */</span>
+<span class="k">object</span> <span class="nc">RasterSpeedExtractor</span><span class="o">{</span>
+ <span class="cm">/** require the value fields to be type of Array[Trajetory], the mode can be &quot;intesect&quot; to consider all trajectories that intersects the cell, or &quot;contain&quot; to only consider trajectories fully inside a cell, or &quot;trim&quot; to only retain the subtrajectory inside a cell */</span>
+ <span class="k">return</span> <span class="n">an</span> <span class="nc">RDD</span><span class="o">[</span><span class="kt">Raster</span><span class="o">[</span><span class="kt">Double</span><span class="p">,</span> <span class="k">_</span><span class="o">]]</span> <span class="o">*/</span>
+ <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">R</span><span class="o">](</span><span class="n">mode</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">&quot;intersect&quot;</span><span class="o">)</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">R</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}}</span>
+
+<span class="cm">/** Extract the transition among different cells inside a raster */</span>
+<span class="k">object</span> <span class="nc">RasterTransitionExtractor</span><span class="o">{</span>
+ <span class="cm">/** require the value fields to be type of Array[Trajetory], return an RDD of raster which has value fields of (Array[(Int, Int)], Int, Array[(Int, Int)]), which represents the in, stay and out count */</span>
+ <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">R</span><span class="o">]</span><span class="k">:</span> <span class="kt">Extractor</span><span class="o">[</span><span class="kt">R</span><span class="o">]</span> <span class="o">=</span> <span class="o">{...}}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="end2endexample.html" class="btn btn-neutral float-right" title="End-to-End Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright .
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

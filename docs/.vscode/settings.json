@@ -1,0 +1,5 @@
+{
+    "restructuredtext.confPath": "${workspaceFolder}\\source",
+    "esbonio.server.enabled": true,
+    "esbonio.sphinx.confDir": "c:\\Users\\kaiqi001\\Desktop\\sttool-doc\\source"
+}
